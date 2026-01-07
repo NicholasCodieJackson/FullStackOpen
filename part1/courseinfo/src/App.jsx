@@ -1,4 +1,4 @@
-function App() {
+const App = () => {
   const course = 'Half stack application development'
   const part1 = 'Fundamentals of React'
   const exercises1 = 10
@@ -9,36 +9,39 @@ function App() {
 
   return (
     <div>
-      <Header course = {course}/>
-      <Content part1 = {part1} exercises1 = {exercises1}
-      part2 = {part2} exercises2={exercises2}
-      part3 = {part3} exercises3={exercises3}/>
-      <Total exercises1 = {exercises1} exercises2 = {exercises2} exercises3 = {exercises3}/>
+      <Header course={course}/>
+      <Content part1={part1} exercises1={exercises1}
+      part2={part2} exercises2={exercises2}
+      part3={part3} exercises3={exercises3}/>
+      <Total exercises1={exercises1} exercises2={exercises2} exercises3={exercises3}/>
           
     </div>
   )
 }
 
-function Header(props) {
+const Header = (props) => {
   return (
     <h1>{props.course}</h1>
   )
 }
 
-function Content(props){
+const Content = (props) => {
   return (
-    <p>
+    <div>
+      <p>
         {props.part1} {props.exercises1}
-        <br />
+      </p>
+      <p>
         {props.part2} {props.exercises2}
-        <br />
+      </p>
+      <p>
         {props.part3} {props.exercises3}
-    </p>
-        
+      </p>      
+    </div>       
   )
 }
 
-function Total(props){
+const Total = (props) => {
   return (
     <p>Number of exercises {props.exercises1 + props.exercises2 + props.exercises3}</p>  
   )
