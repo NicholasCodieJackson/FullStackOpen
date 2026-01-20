@@ -22,14 +22,14 @@ const App = () => {
       },
       {
         name: 'test',
-        exercises: 30,
+        exercises: 5,
         id: 4
       }
     ]
   }
 
   return (
-    <Course course={course}/>
+    <Course key={course.id} course={course}/>
   )
 }
 
