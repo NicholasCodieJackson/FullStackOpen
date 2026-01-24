@@ -3,8 +3,6 @@ const Total = ({parts}) => {
         return sum + part.exercises
     }, 0)
 
-    console.log(totalParts)
-
     return (
         <div>
             <strong>total of {totalParts} exercises</strong> 
