@@ -59,6 +59,22 @@ const App = () => {
       })
   }
 
+  const deletePerson = (id) => {
+    const person = persons.find(person => person.id == id)
+
+    if(window.confirm(`Would you like to delete ${person.name}`)){
+      personService
+      .remove(id)
+      .then(() => {
+        alert(`${person.name} has been deleted`)
+        setPersons(persons.filter((person) => person.id !== id))
+      })
+      .catch(error => {
+        alert(`${person.name} could not be found`)
+      })
+    } 
+  }
+
   return (
     <div>
       <h2>Phonebook</h2>
@@ -81,6 +97,7 @@ const App = () => {
       <Persons
         persons={persons}
         nameSearch={nameSearch}
+        deletePerson={deletePerson}
       />
     </div>
   )
