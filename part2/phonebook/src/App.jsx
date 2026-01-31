@@ -16,7 +16,6 @@ const App = () => {
       .get('http://localhost:3001/persons')
       .then(response => {
         const data = response.data
-        console.log(response);
         setPersons(data)
       })
   }, [])
@@ -48,13 +47,16 @@ const App = () => {
 
     const newPerson = {
         name: newName,
-        number: newNumber,
-        id: Date.now()
+        number: newNumber
       }
 
-    setPersons(persons.concat(newPerson))
-    setNewName('')
-    setNewNumber('')
+    axios
+      .post('http://localhost:3001/persons', newPerson)
+      .then(response => {
+        setPersons(persons.concat(response.data))
+        setNewName('')
+        setNewNumber('')
+      }) 
   }
 
   return (
