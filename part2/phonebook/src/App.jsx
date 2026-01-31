@@ -35,20 +35,40 @@ const App = () => {
   const addPerson = (event) => {
     event.preventDefault()
 
-    if (persons.some(person => person.name === newName)) {
-      alert(`${newName} is already in the phonebook`) 
+    if (newName === '' || newNumber === '') {
+      alert(`Please include both name and number`)
       return
-    } 
+    }
 
-    if (newName === '' || newNumber === ''){
-      alert(`Please include both name and number`) 
+    if (persons.some(person => person.name === newName)) {
+      if (window.confirm(`${newName} is already in the phonebook, 
+        would you like to replace the number with the new one?`)) {
+        const person = persons.find(person => person.name === newName)
+        const updatedPerson = { ...person, number: newNumber }
+
+        personService.update(person.id, updatedPerson)
+          .then(returnedPerson => {
+            setPersons(persons.map(person => person.id === returnedPerson.id
+              ? returnedPerson
+              : person
+            ))
+
+            setNewName('')
+            setNewNumber('')
+          })
+          .catch(error => {
+            alert(`Failed to update ${newName}`)
+          })
+      } else {
+        return
+      }
       return
     }
 
     const newPerson = {
-        name: newName,
-        number: newNumber
-      }
+      name: newName,
+      number: newNumber
+    }
 
     personService
       .create(newPerson)
@@ -57,30 +77,33 @@ const App = () => {
         setNewName('')
         setNewNumber('')
       })
+      .catch(error => {
+        alert(`Failed to create ${newName}`)
+      })
   }
 
   const deletePerson = (id) => {
     const person = persons.find(person => person.id == id)
 
-    if(window.confirm(`Would you like to delete ${person.name}`)){
+    if (window.confirm(`Would you like to delete ${person.name}`)) {
       personService
-      .remove(id)
-      .then(() => {
-        alert(`${person.name} has been deleted`)
-        setPersons(persons.filter((person) => person.id !== id))
-      })
-      .catch(error => {
-        alert(`${person.name} could not be found`)
-      })
-    } 
+        .remove(id)
+        .then(() => {
+          alert(`${person.name} has been deleted`)
+          setPersons(persons.filter((person) => person.id !== id))
+        })
+        .catch(error => {
+          alert(`${person.name} could not be found`)
+        })
+    }
   }
 
   return (
     <div>
       <h2>Phonebook</h2>
-      <Filter 
+      <Filter
         label="Filter by name: "
-        value={nameSearch} 
+        value={nameSearch}
         onChange={handleNameFilterChange}
       />
 
