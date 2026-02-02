@@ -95,11 +95,11 @@ const App = () => {
       personService
         .remove(id)
         .then(() => {
-          alert(`${person.name} has been deleted`)
+          setErrorMessage(`${person.name} has been deleted`)
           setPersons(persons.filter((person) => person.id !== id))
         })
         .catch(error => {
-          alert(`${person.name} could not be found`)
+          setErrorMessage(`${person.name} has already been removed from server`)
         })
     }
   }
