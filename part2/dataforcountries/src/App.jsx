@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
+import Search from './components/Search'
+import CountryList from './components/CountryList'
 
 const App = () => {
     const [search, setSearch] = useState('')
@@ -26,16 +28,8 @@ const App = () => {
 
     return (
         <>
-            <div>
-                find countries:
-                <input onChange={handleSearch} value={search}></input>
-            </div>
-            <div>
-                <p>{countriesToShow.length > 10 && 'Too many results, please refine search'}</p>
-                <ul>{countriesToShow.length > 1 && countriesToShow.length <= 10 && (
-                    countriesToShow.map(country => <li>{country.name.common}</li>)
-                )}</ul>
-            </div>
+            <Search search={search} onSearchChange={handleSearch}/>
+            <CountryList countries={countriesToShow}/>
         </>
 
     )
