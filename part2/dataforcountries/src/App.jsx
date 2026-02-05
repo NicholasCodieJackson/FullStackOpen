@@ -19,12 +19,11 @@ const App = () => {
         setSearch(e.target.value)
     }
 
-    const countriesToShow = countries.filter((country) => {
-        if(search === ''){
-            return
-        }
-        return country.name.common.toLowerCase().includes(search.toLowerCase())
-    })
+    const countriesToShow = search === ''
+        ? []
+        : countries.filter(country => 
+            country.name.common.toLowerCase().includes(search.toLowerCase())
+        )
 
     return (
         <>

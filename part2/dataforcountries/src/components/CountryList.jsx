@@ -1,17 +1,49 @@
+import {useState, useEffect} from 'react'
 import Country from '../components/Country'
 
 const CountryList = ({ countries }) => {
-    return (
-        <div>
-            <p>{countries.length > 10 && 'Too many results, please refine search'}</p>
+    const [selectedCountry, setSelectedCountry] = useState(null)
 
-            <ul>{countries.length > 1 && countries.length <= 10 && (
-                countries.map(country => <li key={country.name.common}>{country.name.common}</li>)
-            )}</ul>
+    const showCountry = (country) => {
+        setSelectedCountry(country)
+    }
 
-            {countries.length === 1 && <Country country={countries[0]}/>}
-        </div>
-    )
+    useEffect(() => {
+        setSelectedCountry(null)
+    }, [countries])
+
+    if(selectedCountry) {
+        return <Country country={selectedCountry}/>
+    }
+
+    if(countries.length > 10){
+        return (
+            <p>Too many results, refine search</p>
+        )
+    }
+
+    if(countries.length === 1){
+        return <Country country={countries[0]}/>
+    }
+
+    
+
+    if(countries.length > 1 && countries.length <= 10){
+        return (
+            <ul>
+                {countries.map(country => {
+                    return (
+                        <li key={country.name.common}>
+                            {country.name.common}
+                            <button onClick={() => showCountry(country)}>Show</button>
+                        </li>
+                    )
+                })}
+            </ul>
+        )
+    }
+
+    return null
 }
 
 export default CountryList
